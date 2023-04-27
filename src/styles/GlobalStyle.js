@@ -8,14 +8,13 @@ const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;
         font-family: 'Roboto Slab', sans-serif;
-        font-weight: 100px;
         font-size: 10rem;
-        color: #004f8b;
+        color: #2982A8;
     }
     div {
         font-family: 'Roboto Slab', sans-serif;
         width:100%;
-        background-color:#f4a630;
+        background-color:#FDFBDD;
     }
     button {
         cursor:pointer;
@@ -24,5 +23,4 @@ const GlobalStyle = createGlobalStyle`
         text-decoration:none;
     }    
 `
-
 export default GlobalStyle
