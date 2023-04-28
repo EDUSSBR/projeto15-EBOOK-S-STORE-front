@@ -3,7 +3,6 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
-import editionButton from "../images/lapis.png"
 import { Circles } from "react-loader-spinner"
 import { FaEdit } from 'react-icons/fa'
 
@@ -92,7 +91,7 @@ export default function ProductPage() {
 
 const PageProdutc = styled.div`
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 120px);
     background-color: #FDFCDC;
 `
 const BookTittle = styled.div`
