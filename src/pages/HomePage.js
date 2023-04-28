@@ -13,14 +13,16 @@ export function HomePage() {
                 const productsResponse = await services.getProducts();
                 setProducts(productsResponse);
             } catch (e) {
+                console.log("chegou aqui")
                 console.log("services is not working properly");
+
             }
         })
             ()
     }, [])
     return (<HomePageContainer>
         {products.length> 0 ? products?.map(product => {
-            return <BookItem key={product._id} price={product.price} name={product.name} imageUrl={product.imageUrl} />
+            return <BookItem key={product._id} id={product._id} price={product.price} name={product.name} imageUrl={product.imageUrl} />
         }): <Circles
         height="80"
         width="80"
