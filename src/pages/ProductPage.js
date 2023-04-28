@@ -14,13 +14,13 @@ export default function ProductPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/product/${id}`)
+        axios.get(`${process.env.REACT_APP_BACK_API_URL}product/${id}`)
             .then((product) => {
                 setBook(product.data)
             })
             .catch((e) => alert(e))
             .finally(() => setIsLoading(false));
-    }, [])
+    }, [id])
 
     function deleteProduct() {
         console.log("ok")
