@@ -4,6 +4,8 @@ import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import editionButton from "../images/lapis.png"
+import { Circles } from "react-loader-spinner"
+import { FaEdit } from 'react-icons/fa'
 
 export default function ProductPage() {
     const [book, setBook] = useState();
@@ -21,7 +23,7 @@ export default function ProductPage() {
             .finally(() => setIsLoading(false));
     }, [])
 
-    function deleteProduct(){
+    function deleteProduct() {
         console.log("ok")
     }
     function addToCart(e) {
@@ -29,32 +31,36 @@ export default function ProductPage() {
         const buttonName = e.target.name;
         console.log(`Botão "${buttonName}" clicado`)
         console.log("Quantidade selecionada:", selectedQuantity);
-        const addCart = {id, name:book.name, price: book.price, quantity: selectedQuantity};
-        if(buttonName==="add-to-cart"){
+        const addCart = { id, name: book.name, price: book.price, quantity: selectedQuantity };
+        if (buttonName === "add-to-cart") {
             //adiciona a variavel cart
             console.log(addCart)
-        }else{
+        } else {
             navigate("/checkout")
         }
 
     }
     if (isLoading) {
-        return <div>Carregando...</div>
+        return (<PageProdutc>
+            <Circles
+                height="80"
+                width="80"
+                ariaLabel="circles-loading"
+                wrapperClass="spinnerHome"
+                visible={true}
+            />
+        </PageProdutc >)
     }
-
     return (
         <PageProdutc>
             <BookTittle>
                 <p>{book?.name}</p>
-                <img onClick={deleteProduct} src={editionButton} />
+                <StyledIcon />
             </BookTittle>
             <ContainerProdutsInformation>
                 <img src={book?.imageUrl} />
                 <BuyContainer>
                     <p>R$ {book?.price.replace(".", ",")}</p>
-                    <Description>
-                        {book?.description}
-                    </Description>
                     <form onSubmit={addToCart}>
                         <div>
                             <label htmlFor="quantity">Selecione a quantidade:</label>
@@ -76,9 +82,13 @@ export default function ProductPage() {
                     </form>
                 </BuyContainer>
             </ContainerProdutsInformation>
+            <Description>
+                {book?.description}
+            </Description>
         </PageProdutc>
     )
 }
+
 
 const PageProdutc = styled.div`
     width: 100%;
@@ -87,22 +97,34 @@ const PageProdutc = styled.div`
 `
 const BookTittle = styled.div`
     font-size: 80px;
-    margin-left:300px;
-    margin-bottom: 50px;
     width: 100%;
     display: flex;
     align-items: center;
     color: #0081A7;
-    img{
+    padding: 50px;
+    @media (max-width: 768px){
+        padding: none;
+        justify-content: center;
+        font-size: 50px;
+        flex-direction: column;
+    }
+`
+
+const StyledIcon = styled(FaEdit)`
         width: 35px;
         height: 35px;
-    }
+        margin-left: 15px;
+        margin-top:15px;
+        color:#F07167;
 `
 const ContainerProdutsInformation = styled.div`
     display:flex;
     justify-content: center;
     img{
         width: 300px;
+        @media (max-width: 768px){
+            width: 80%;
+        }
     }
     form{
         display:flex;
@@ -116,12 +138,16 @@ const ContainerProdutsInformation = styled.div`
             width: 190px;
         }
     }
+    @media (max-width: 768px){
+        flex-direction: column;
+        align-items: center;
+    }
 `
 const BuyContainer = styled.div`
     display:flex;
     flex-direction: column;
     width: 500px;
-    justify-content:space-between;
+    justify-content:space-around;
     align-items:center;
     padding: 15px;
     button{
@@ -132,16 +158,35 @@ const BuyContainer = styled.div`
         border:none;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
         transition: box-shadow 0.3s ease-in-out;
+        font-size: 20px;
         &:hover {
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.45);
         }
+        @media (max-width: 768px){
+            width: 70%;
+        }
+    }
+    form{
+        @media (max-width: 768px){
+            width: 100%;
+        }
+    }
+    @media (max-width: 768px){
+        width: 100%;
     }
     p{
         font-size: 70px;
         color: #0081A7;
     }
+    select{
+        font-size: 15px;
+    }
+    option{
+        font-size: 15px;
+    }
 `
 
 const Description = styled.div`
-    font: 20px;
+    font-size: 20px;
+    padding:50px;
 `
