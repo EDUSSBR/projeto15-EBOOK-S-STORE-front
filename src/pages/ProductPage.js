@@ -160,7 +160,7 @@ export default function ProductPage() {
         </>
     )
 }
-const EditionBook = styled.div`
+export const EditionBook = styled.div`
   width: 500px;
   padding: 15px;
   position: fixed;
@@ -215,7 +215,7 @@ const EditionBook = styled.div`
     
 `;
 
-const CloseIcon = styled(FaTimes)`
+export const CloseIcon = styled(FaTimes)`
   position: absolute;
   top: 10px;
   right: 10px;

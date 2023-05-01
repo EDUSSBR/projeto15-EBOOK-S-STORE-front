@@ -9,6 +9,7 @@ import SignUp from "./pages/Login/SignUp";
 import Login from "./pages/Login/Login";
 import { UserProvider } from "./ContextAPI/ContextUser";
 import Checkout from "./pages/Checkout";
+import AddProduct from "./pages/AddProduct";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/cadastro" element={<SignUp/>}/>
             <Route path="/checkout" element={<Checkout/>}/>
+            <Route path="/addproduct" element={<AddProduct/>}/>
           </Routes>
         </CartProvider>
         </ProductProvider>
