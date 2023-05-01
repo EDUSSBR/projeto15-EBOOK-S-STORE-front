@@ -7,6 +7,7 @@ export function Header() {
 }
 
 const HeaderContainer = styled.header`
+position:sticky;
 width:100%;
 height:70px;
 background-color:#2982A8;
@@ -16,7 +17,7 @@ justify-content:center;
 -webkit-box-shadow: inset 0px 1px 6px 1px #FDFBDD, 0px 1px 14px 1px #FDFBDD;
 -moz-box-shadow: inset 0px 1px 6px 1px #FDFBDD,0px 1px 14px 1px #FDFBDD;
 box-shadow: inset 0px 1px 6px 1px #FDFBDD, 0px 1px 14px 1px #FDFBDD;
-
+z-index:20;
 p {
   font-family: "Rubik Burned", sans-serif;
   font-size: 40px;
