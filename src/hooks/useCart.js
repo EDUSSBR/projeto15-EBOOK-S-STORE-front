@@ -9,12 +9,19 @@ export function CartProvider({ children }) {
     const [cart, setCart] = useState(() => {
         return JSON.parse(localStorage.getItem('cartItems')) || { items: [], totalItems: 0 ,total: 0 }
     })
-    function resetCart(){
-        const shouldReset = window.confirm("Você realmente deseja limpar todos items do carrinho?")
-        if(shouldReset){
+    function resetCart(a){
+        if(a.pageX){
+            const shouldReset = window.confirm("Você realmente deseja limpar todos items do carrinho?")
+            if(shouldReset){
+                localStorage.setItem("cartItems", JSON.stringify({ items: [], totalItems: 0 , total: 0 }))
+            setCart(()=>({ items: [], totalItems: 0 , total: 0 }))
+            }
+        }else{
             localStorage.setItem("cartItems", JSON.stringify({ items: [], totalItems: 0 , total: 0 }))
             setCart(()=>({ items: [], totalItems: 0 , total: 0 }))
         }
+        
+        
     }
     async function addToCart(id, price, name, imageUrl, stockQuantity, quantity) {
         if(!quantity) quantity = 1;

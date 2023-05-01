@@ -9,27 +9,28 @@ import SignUp from "./pages/Login/SignUp";
 import Login from "./pages/Login/Login";
 import { UserProvider } from "./ContextAPI/ContextUser";
 import Checkout from "./pages/Checkout";
-import Orders from "./pages/Orders";
+import AddProduct from "./pages/AddProduct";
 
 function App() {
-  return (
-    <UserProvider>
-      <GlobalContainer>
-        <BrowserRouter>
-          <ProductProvider>
-            <CartProvider>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/products/:id" element={<ProductPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/cadastro" element={<SignUp />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/pedidos" element={<Orders />}/>
-              </Routes>
-            </CartProvider>
-          </ProductProvider>
-        </BrowserRouter>
-      </GlobalContainer>
+    return (
+      <UserProvider>
+    <GlobalContainer>
+      <BrowserRouter>
+        <ProductProvider>
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products/:id" element={<ProductPage />} />
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/cadastro" element={<SignUp/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
+            <Route path="/addproduct" element={<AddProduct/>}/>
+            <Route path="/pedidos" element={<Orders />}/>
+          </Routes>
+        </CartProvider>
+        </ProductProvider>
+      </BrowserRouter>
+    </GlobalContainer>
     </UserProvider>
 
   );

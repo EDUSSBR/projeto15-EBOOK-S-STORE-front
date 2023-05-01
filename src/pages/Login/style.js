@@ -24,8 +24,6 @@ input, button{
     outline:0px;
     border: 1px solid #46B0BA   ;
     border-radius:5px;
-    
-
 }
 input{
     padding-left:10px;

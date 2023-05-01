@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { CartItem } from "./CartItem";
 
 function CartItemList({ shouldRender, total, isOpenCart, cartItems, removeFromCart, addToCart }) {
+  console.log(total )
   return (
     <CartListContainer>
       {shouldRender ? (!isOpenCart &&
