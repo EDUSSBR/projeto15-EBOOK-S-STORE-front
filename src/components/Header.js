@@ -5,7 +5,7 @@ export function Header() {
   const lctoken = localStorage.getItem("token")
   const navigate = useNavigate()
   return <HeaderContainer>
-    <p>Ebook'Store</p>
+    <p onClick={()=> navigate("/")}>Ebook'Store</p>
     {!lctoken?(
     <><button onClick={()=> navigate("/login")}>Login</button>
     <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(<></>)}
