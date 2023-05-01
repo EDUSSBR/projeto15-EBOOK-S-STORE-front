@@ -45,6 +45,7 @@ export default function ProductPage() {
         }
     }
     function openEdition() {
+        console.log(book.imageUrl)
         setCloseEdition(false);
         setName(book.name);
         setImageUrl(book.imageUrl);
