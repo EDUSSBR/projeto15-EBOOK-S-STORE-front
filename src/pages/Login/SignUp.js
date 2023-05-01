@@ -19,7 +19,7 @@ export default function SignUp(){
                 Authorization: "Bearer " + token
             }})
             axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {},config).then(res=>{
-                navigate("/")
+                navigate("/login")
             }
             ).catch(err=>{
                 alert(err.response.data)
@@ -38,7 +38,7 @@ export default function SignUp(){
                 <input disabled={disable} type="password" value={user.password} onChange={(e) => setUser({...user, password:e.target.value})} placeholder="Senha"/>
                 <input disabled={disable} type="password" value={user.confirm} onChange={(e) => setUser({...user, confirm:e.target.value})} placeholder="Confirme sua senha"/>
                 <button disabled={disable} type="submit">{disable?<ThreeDots color="white"/>:"Cadastrar"}</button>
-                <Link to="/">Já tem uma conta? Entre!</Link>
+                <Link to="/login">Já tem uma conta? Entre!</Link>
             </Form>
         </Background>
         </>
