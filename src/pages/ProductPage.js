@@ -3,8 +3,10 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
+import { Header } from "../components/Header"
 import { Circles } from "react-loader-spinner"
 import { FaEdit, FaTimes } from 'react-icons/fa'
+
 
 export default function ProductPage() {
     const [book, setBook] = useState();
@@ -43,6 +45,7 @@ export default function ProductPage() {
         }
     }
     function openEdition() {
+        console.log(book.imageUrl)
         setCloseEdition(false);
         setName(book.name);
         setImageUrl(book.imageUrl);
@@ -97,7 +100,9 @@ export default function ProductPage() {
             />
         </PageProdutc >)
     }
-    return (
+    return(
+        <>
+        <Header/>
         <PageProdutc>
             <BookTittle>
                 <p>{book?.name}</p>
@@ -152,6 +157,7 @@ export default function ProductPage() {
                 </form>
             </EditionBook>
         </PageProdutc>
+        </>
     )
 }
 const EditionBook = styled.div`
