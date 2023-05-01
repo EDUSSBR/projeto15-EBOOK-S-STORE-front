@@ -5,7 +5,7 @@ export function Header() {
   const lctoken = localStorage.getItem("token")
   const navigate = useNavigate()
   return <HeaderContainer>
-    <p>Ebook'Store</p>
+    <p onClick={()=> navigate("/")}>Ebook'Store</p>
     {!lctoken?(
     <><button onClick={()=> navigate("/login")}>Login</button>
     <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(<></>)}
@@ -32,12 +32,12 @@ p {
   color: #FDFBDD;
   padding: 0 17px;
   border-radius:4px;
+  cursor: pointer;
 } 
 button:nth-child(2){
   position: absolute;
   right: 20px;
-  width:100px;
-  height:35px;
+
 
 }
 
@@ -46,12 +46,12 @@ button{
   border:0px;
   border-radius:5px;
   background-color:#fdfcdc;
+  width:100px;
+  height:35px;
 }
 button:nth-child(3){
   position: absolute;
   right: 150px;
-  width:100px;
-  height:35px;
   font-size:15px;
 }
 `

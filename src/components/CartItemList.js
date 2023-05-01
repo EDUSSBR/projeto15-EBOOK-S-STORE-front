@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { CartItem } from "./CartItem";
 
 function CartItemList({ shouldRender, total, isOpenCart, cartItems, removeFromCart, addToCart }) {
+  console.log(total )
   return (
     <CartListContainer>
       {shouldRender ? (!isOpenCart &&
@@ -19,7 +20,7 @@ function CartItemList({ shouldRender, total, isOpenCart, cartItems, removeFromCa
         (!isOpenCart && <li style={{ marginTop: '50px' }}>Você ainda não possui itens na lista de compras</li>)}
       {shouldRender && !isOpenCart &&
         <div>
-          <p>TOTAL:{" R$ " + (total).toFixed(2)} </p>
+          <p>TOTAL:{" R$ " + Number(total).toFixed(2)} </p>
         </div>}
     </CartListContainer>
   );
