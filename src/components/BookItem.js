@@ -9,6 +9,7 @@ export function BookItem({id, price, name, imageUrl }) {
     const navigate = useNavigate();
 
     function navigateToPageProduct(){
+        console.log(`${process.env.REACT_APP_BACK_API_URL}product/${id}`);
         navigate(`/products/${id}`)
     }
     return <BookItemContainer>

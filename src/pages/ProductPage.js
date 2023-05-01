@@ -4,27 +4,31 @@ import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import { Circles } from "react-loader-spinner"
-import { FaEdit } from 'react-icons/fa'
+import { FaEdit, FaTimes } from 'react-icons/fa'
 
 export default function ProductPage() {
     const [book, setBook] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [selectedQuantity, setSelectedQuantity] = useState("1");
+    const [closeEdition, setCloseEdition] = useState(true);
+    const [name, setName] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
+    const [stockQuantity, setStockQuantity] = useState("");
+    const [category, setCategory] = useState("");
     const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACK_API_URL}product/${id}`)
+        axios.get(`${process.env.REACT_APP_BACK_API_URL}/product/${id}`)
             .then((product) => {
                 setBook(product.data)
             })
             .catch((e) => alert(e))
             .finally(() => setIsLoading(false));
-    }, [id])
+    }, [id, name, imageUrl, price, description])
 
-    function deleteProduct() {
-        console.log("ok")
-    }
     function addToCart(e) {
         e.preventDefault();
         const buttonName = e.target.name;
@@ -37,7 +41,50 @@ export default function ProductPage() {
         } else {
             navigate("/checkout")
         }
+    }
+    function openEdition() {
+        setCloseEdition(false);
+        setName(book.name);
+        setImageUrl(book.imageUrl);
+        setPrice(book.price);
+        setDescription(book.description);
+        setStockQuantity(book.stockQuantity);
+        setCategory(book.category);
+    }
 
+    function bookEdit(e) {
+        e.preventDefault();
+        const buttonName = e.target.name;
+        if (buttonName === "deletar") {
+            const confirmed = window.confirm("Tem certeza que deseja excluir este produto?");
+            if (confirmed) {
+                axios.delete(`${process.env.REACT_APP_BACK_API_URL}/product/${id}`)
+                    .then(() => {
+                        alert("produto deletado com sucesso")
+                        navigate("/")
+                    })
+                    .catch((e) => alert(e))
+            }
+        } else {
+            const body = { name, description, price, stockQuantity, category, imageUrl };
+            axios.put(`${process.env.REACT_APP_BACK_API_URL}/product/${id}`, body)
+                .then(() => {
+
+                    setName(book.name);
+                    setImageUrl(book.imageUrl);
+                    setPrice(book.price);
+                    setDescription(book.description);
+                    setStockQuantity(book.stockQuantity);
+                    setCategory(book.category);
+                    alert("Produto atualizado com sucesso")
+                    setCloseEdition(true);
+                })
+                .catch((e) => alert(e))
+        }
+
+    }
+    function handleClose() {
+        setCloseEdition(true);
     }
     if (isLoading) {
         return (<PageProdutc>
@@ -54,7 +101,7 @@ export default function ProductPage() {
         <PageProdutc>
             <BookTittle>
                 <p>{book?.name}</p>
-                <StyledIcon />
+                <StyledIcon onClick={openEdition} />
             </BookTittle>
             <ContainerProdutsInformation>
                 <img src={book?.imageUrl} />
@@ -84,9 +131,92 @@ export default function ProductPage() {
             <Description>
                 {book?.description}
             </Description>
+            <EditionBook close={closeEdition}>
+                <CloseIcon onClick={handleClose} />
+                <p>Edição de Informações do Livro</p>
+                <form onSubmit={bookEdit}>
+                    <label for="titulo">Titulo:</label>
+                    <input type="text" value={name} onChange={(event) => setName(event.target.value)} required />
+                    <label for="Imagem">Imagem:</label>
+                    <input type="url" value={imageUrl} onChange={(event) => setImageUrl(event.target.value)} required />
+                    <label for="Preço">Preço:</label>
+                    <input type="number" value={price} onChange={(event) => setPrice(event.target.value)} required />
+                    <label for="Descrição">Descrição:</label>
+                    <input type="text" value={description} onChange={(event) => setDescription(event.target.value)} required />
+                    <label for="Quantidade em Estoque">Quantidade em Estoque:</label>
+                    <input type="text" value={stockQuantity} onChange={(event) => setStockQuantity(event.target.value)} required />
+                    <label for="Categoria">Categoria:</label>
+                    <input type="text" value={category} onChange={(event) => setCategory(event.target.value)} required />
+                    <button name="salvar" onClick={(e) => bookEdit(e)}>Salvar</button>
+                    <button name="deletar" onClick={(e) => bookEdit(e)}>Deletar</button>
+                </form>
+            </EditionBook>
         </PageProdutc>
     )
 }
+const EditionBook = styled.div`
+  width: 500px;
+  padding: 15px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FDFCDC;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  display: ${({ close }) => close ? "none" : "flex"};
+  z-index: 999;
+  flex-direction:column ;
+  align-items: center;
+  justify-content:center;
+  p{
+    font-size:30px;
+    margin-bottom: 10px ;
+    margin-top: 15px;
+  }
+    form{
+        display: flex;
+        flex-direction:column ;
+        align-items: start;
+        justify-content: center;
+        label{
+            font-size: 20px;
+            margin-bottom:5px;
+        }
+        input{
+            font-size: 20px;
+            border-radius: 5px ;
+            border:1px solid #00afb9;
+            margin-bottom:5px;
+            height: 40px;
+        }
+        button{
+        width: 100px;
+        height: 50px;
+        background-color:#F07167;
+        border-radius: 20px;
+        border:none;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+        transition: box-shadow 0.3s ease-in-out;
+        font-size: 20px;
+        margin: auto;
+        margin-top:10px;
+        &:hover {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.45);
+        }
+        }
+    }
+    
+`;
+
+const CloseIcon = styled(FaTimes)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color:#F07167;
+`
 
 
 const PageProdutc = styled.div`
@@ -115,6 +245,7 @@ const StyledIcon = styled(FaEdit)`
         margin-left: 15px;
         margin-top:15px;
         color:#F07167;
+        cursor: pointer;
 `
 const ContainerProdutsInformation = styled.div`
     display:flex;
