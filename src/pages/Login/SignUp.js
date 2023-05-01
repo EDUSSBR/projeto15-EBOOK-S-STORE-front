@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { Background } from "./style"
 import { UserContext } from "../../ContextAPI/ContextUser"
+import { Header } from "../../components/Header"
 
 export default function SignUp(){
     const [user, setUser] = useState({name:"", email:"", password:"", confirm:""})
@@ -18,7 +19,7 @@ export default function SignUp(){
                 Authorization: "Bearer " + token
             }})
             axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {},config).then(res=>{
-                navigate("/home")
+                navigate("/")
             }
             ).catch(err=>{
                 alert(err.response.data)
@@ -27,6 +28,8 @@ export default function SignUp(){
         }
     })
     return(
+        <>
+        <Header/>
         <Background>
             <Form onSubmit={cadastro}>
                 <h1>Cadastre-se:</h1>
@@ -38,6 +41,7 @@ export default function SignUp(){
                 <Link to="/">Já tem uma conta? Entre!</Link>
             </Form>
         </Background>
+        </>
     )
     function cadastro(e){
         e.preventDefault()
@@ -55,7 +59,7 @@ export default function SignUp(){
         delete register.confirm
         axios.post(`${process.env.REACT_APP_BACK_API_URL}/signup`, register)
         .then(res=>{
-            navigate("/")
+            navigate("/login")
         })
         .catch(err=>{
             alert(err.response.data)

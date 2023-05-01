@@ -2,42 +2,12 @@ import styled from "styled-components"
 import { BookItem } from "../components/BookItem"
 import { services } from "../services"
 import { useProduct } from "../hooks/useProducts"
-import { useContext, useEffect } from "react"
+import { useEffect } from "react"
 import { Circles } from "react-loader-spinner"
-import { useNavigate } from "react-router-dom"
-import { UserContext } from "../ContextAPI/ContextUser"
-import axios from "axios"
+import { Header } from "../components/Header"
+
 
 export function HomePage() {
-
-
-    const navigate = useNavigate()
-    const {setConfig} = useContext(UserContext)
-    useEffect(()=>{
-        const lctoken = localStorage.getItem("token")
-        console.log(lctoken)
-        if(!lctoken){
-            navigate("/")
-        }
-        if(lctoken){
-            
-            axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {}, {headers:{
-                Authorization: "Bearer " + lctoken
-            }}).then(res=>{
-                if(!res.data){
-                    navigate("/")
-                }   
-                setConfig({headers:{
-                    Authorization: "Bearer " + lctoken
-                }})
-            }).catch(err=>{
-                alert(err.response.data)
-            })
-
-            }}, [])
-
-
-
 
     const { products, setProducts } = useProduct();
     useEffect(() => {
@@ -51,7 +21,10 @@ export function HomePage() {
         })
             ()
     }, [])
-    return (<HomePageContainer>
+    return (
+        <>
+        <Header/>
+    <HomePageContainer>
         {products.length> 0 ? products?.map(product => {
             return <BookItem key={product._id} price={product.price} name={product.name} imageUrl={product.imageUrl} />
         }): <Circles
@@ -61,7 +34,9 @@ export function HomePage() {
         wrapperClass="spinnerHome"
         visible={true}
       />}
-    </HomePageContainer >)
+    </HomePageContainer >
+    </>
+)
 
 }
 const HomePageContainer = styled.div`

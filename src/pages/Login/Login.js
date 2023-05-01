@@ -5,6 +5,7 @@ import { Background } from "./style"
 import { UserContext } from "../../ContextAPI/ContextUser"
 import { ThreeDots } from "react-loader-spinner"
 import styled from "styled-components"
+import { Header } from "../../components/Header"
 
 export default function Login(){
     const [user, setUser] = useState({email:"", password:""})
@@ -20,7 +21,7 @@ export default function Login(){
             axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {},config).then(res=>{
 
                 if(res.data){
-                    navigate("/home")
+                    navigate("/")
                 }
                 return
             }
@@ -31,6 +32,8 @@ export default function Login(){
         }
     })
     return(
+        <>
+        <Header/>
         <Background>
             <Form onSubmit={login}>
                 <h1>Login:</h1>
@@ -40,6 +43,7 @@ export default function Login(){
                 <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
             </Form>
         </Background>
+        </>
     )
     function login(e){
         e.preventDefault()
@@ -54,7 +58,7 @@ export default function Login(){
                 Authorization: "Bearer " + res.data
             }})
             localStorage.setItem("token", res.data)
-            navigate("/home")
+            navigate("/")
         }
         ).catch(err=>{
             alert(err.response.data)

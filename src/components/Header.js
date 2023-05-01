@@ -1,8 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export function Header() {
+  const lctoken = localStorage.getItem("token")
+  const navigate = useNavigate()
   return <HeaderContainer>
     <p>Ebook'Store</p>
+    {!lctoken?(
+    <><button onClick={()=> navigate("/login")}>Login</button>
+    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(<></>)}
+    
   </HeaderContainer>
 }
 
@@ -16,6 +23,7 @@ justify-content:center;
 -webkit-box-shadow: inset 0px 1px 6px 1px #FDFBDD, 0px 1px 14px 1px #FDFBDD;
 -moz-box-shadow: inset 0px 1px 6px 1px #FDFBDD,0px 1px 14px 1px #FDFBDD;
 box-shadow: inset 0px 1px 6px 1px #FDFBDD, 0px 1px 14px 1px #FDFBDD;
+position: relative;
 
 p {
   font-family: "Rubik Burned", sans-serif;
@@ -23,5 +31,26 @@ p {
   color: #FDFBDD;
   padding: 0 17px;
   border-radius:4px;
+} 
+button:nth-child(2){
+  position: absolute;
+  right: 20px;
+  width:100px;
+  height:35px;
+
+}
+
+button{
+  font-size:15px;
+  border:0px;
+  border-radius:5px;
+  background-color:#fdfcdc;
+}
+button:nth-child(3){
+  position: absolute;
+  right: 150px;
+  width:100px;
+  height:35px;
+  font-size:15px;
 }
 `
