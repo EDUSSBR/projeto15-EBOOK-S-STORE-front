@@ -1,3 +1,5 @@
 export default function Orders(){
-    return
+    return(
+        <></>
+    )
 }
