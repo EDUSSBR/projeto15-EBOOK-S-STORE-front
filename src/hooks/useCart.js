@@ -23,7 +23,8 @@ export function CartProvider({ children }) {
         
         
     }
-    async function addToCart(id, price, name, imageUrl, stockQuantity) {
+    async function addToCart(id, price, name, imageUrl, stockQuantity, quantity) {
+        if(!quantity) quantity = 1;
         setDisableAddToCartButton(prev => true)
         if (Number(stockQuantity) < 1) return alert("Esse item está fora de estoque.")
         let newCart = {...cart, items: [...cart.items]} || { items: [], totalItems: 0 , total: 0 };
@@ -31,7 +32,7 @@ export function CartProvider({ children }) {
         if (itemAlreadyInCart) {
             (newCart = cart.items.reduce((acc, item) => {
                 if (item.id === id) {
-                    const updateItemQuantity = item.quantity += 1
+                    const updateItemQuantity = item.quantity += quantity
                     return acc = { items: [...acc.items, { ...item, quantity: updateItemQuantity }], totalItems: acc.totalItems + updateItemQuantity, total: Number((acc.total + item.quantity * item.price).toFixed(2)) }
                 }
                 acc.items.push(item)
@@ -44,8 +45,8 @@ export function CartProvider({ children }) {
                 newCart.totalItems=1
             }
             ++newCart.totalItems
-            newCart.items.push({ id, price, name, imageUrl, quantity: 1 })
-            newCart.total += price
+            newCart.items.push({ id, price, name, imageUrl, quantity: quantity })
+            newCart.total += (price * quantity)
         }
         localStorage.setItem('cartItems', JSON.stringify(newCart));
         setCart(() => newCart)

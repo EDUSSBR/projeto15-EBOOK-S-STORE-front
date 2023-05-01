@@ -25,6 +25,7 @@ function App() {
             <Route path="/cadastro" element={<SignUp/>}/>
             <Route path="/checkout" element={<Checkout/>}/>
             <Route path="/addproduct" element={<AddProduct/>}/>
+            <Route path="/pedidos" element={<Orders />}/>
           </Routes>
         </CartProvider>
         </ProductProvider>
@@ -32,10 +33,10 @@ function App() {
     </GlobalContainer>
     </UserProvider>
 
-    );
-  }
+  );
+}
 
-  export default App;
+export default App;
 
-  const GlobalContainer = styled.div`
+const GlobalContainer = styled.div`
 `

@@ -19,7 +19,6 @@ export function HomePage() {
                 const productsResponse = await services.getProducts();
                 setProducts(productsResponse);
             } catch (e) {
-                console.log("chegou aqui")
                 console.log("services is not working properly");
 
             }
