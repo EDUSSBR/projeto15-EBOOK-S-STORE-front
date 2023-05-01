@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom"
 
 export function CartButton({shouldRender, isOpenCart}) {
-    return (shouldRender && isOpenCart && <CartButtonContainer>Finalizar Compra</CartButtonContainer>)
+    const navigate = useNavigate()
+    return (shouldRender && isOpenCart && <CartButtonContainer onClick={()=>navigate("/checkout")}>Finalizar Compra</CartButtonContainer>)
 }
 
 const CartButtonContainer = styled.button`
