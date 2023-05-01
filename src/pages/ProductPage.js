@@ -6,6 +6,7 @@ import styled from "styled-components"
 import { Header } from "../components/Header"
 import { Circles } from "react-loader-spinner"
 import { FaEdit, FaTimes } from 'react-icons/fa'
+import { Cart } from "../components/Cart"
 
 
 export default function ProductPage() {
@@ -157,6 +158,7 @@ export default function ProductPage() {
                 </form>
             </EditionBook>
         </PageProdutc>
+        <Cart/>
         </>
     )
 }
