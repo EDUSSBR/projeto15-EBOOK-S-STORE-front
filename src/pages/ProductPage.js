@@ -23,7 +23,7 @@ export default function ProductPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart()
-
+    const { cart } =useCart();
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACK_API_URL}/product/${id}`)
             .then((response) => {
@@ -36,7 +36,6 @@ export default function ProductPage() {
 
     }, [id, name, imageUrl, price, description])
 
-
     function initializeData(product) {
         setName(product.name);
         setImageUrl(product.imageUrl);
@@ -44,13 +43,17 @@ export default function ProductPage() {
         setDescription(product.description);
         setStockQuantity(product.stockQuantity);
         setCategory(product.category);
+        setSelectedQuantity(1)
     }
 
     function addCart(e) {
         e.preventDefault();
-        const cart = { id, price, name, image: imageUrl, stockQuantity };
-        console.log(cart)
-        addToCart(cart);
+        console.log(selectedQuantity);
+        
+            addToCart(id, price, name, imageUrl, stockQuantity, Number(selectedQuantity));
+    
+        
+        
     }
 
     function openEdition() {
@@ -137,17 +140,17 @@ export default function ProductPage() {
                         <CloseIcon onClick={handleClose} />
                         <p>Edição de Informações do Livro</p>
                         <form onSubmit={bookEdit}>
-                            <label for="titulo">Titulo:</label>
+                            <label htmlFor="titulo">Titulo:</label>
                             <input type="text" value={name} onChange={(event) => setName(event.target.value)} required />
-                            <label for="Imagem">Imagem:</label>
+                            <label htmlFor="Imagem">Imagem:</label>
                             <input type="url" value={imageUrl} onChange={(event) => setImageUrl(event.target.value)} required />
-                            <label for="Preço">Preço:</label>
+                            <label htmlFor="Preço">Preço:</label>
                             <input type="number" value={price} onChange={(event) => setPrice(event.target.value)} required />
-                            <label for="Descrição">Descrição:</label>
+                            <label htmlFor="Descrição">Descrição:</label>
                             <input type="text" value={description} onChange={(event) => setDescription(event.target.value)} required />
-                            <label for="Quantidade em Estoque">Quantidade em Estoque:</label>
+                            <label htmlFor="Quantidade em Estoque">Quantidade em Estoque:</label>
                             <input type="text" value={stockQuantity} onChange={(event) => setStockQuantity(event.target.value)} required />
-                            <label for="Categoria">Categoria:</label>
+                            <label htmlFor="Categoria">Categoria:</label>
                             <input type="text" value={category} onChange={(event) => setCategory(event.target.value)} required />
                             <button name="salvar" onClick={(e) => bookEdit(e)}>Salvar</button>
                             <button name="deletar" onClick={(e) => bookEdit(e)}>Deletar</button>
