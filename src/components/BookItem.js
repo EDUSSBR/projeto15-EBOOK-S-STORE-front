@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { BsFillCartPlusFill } from "react-icons/bs";
-import { FaRegEdit } from "react-icons/fa";
+// import { FaRegEdit } from "react-icons/fa";
 import { bookCircle } from "../styles/keyframes";
 import { useNavigate } from "react-router-dom";
 
-export function BookItem({id, price, name, imageUrl }) {
+export function BookItem({ addToCart,id, price, name, imageUrl, stockQuantity, disableAddToCartButton,disableRemoveFromCartButton }) {
 
     const navigate = useNavigate();
 
@@ -12,13 +12,14 @@ export function BookItem({id, price, name, imageUrl }) {
         console.log(`${process.env.REACT_APP_BACK_API_URL}product/${id}`);
         navigate(`/products/${id}`)
     }
+
     return <BookItemContainer>
         <img onClick={navigateToPageProduct} src={imageUrl} alt="capa" />
         <p>{name}</p>
         <p>R${price}</p>
         <Icons>
-            <BsFillCartPlusFill />
-            <span> <FaRegEdit /></span>
+            <BsFillCartPlusFill disabled={disableAddToCartButton} onClick={()=>addToCart(id, price, name, imageUrl, stockQuantity)}/>
+            {/* <span> <FaRegEdit disabled={disableRemoveFromCartButton} /></span> */}
         </Icons>
     </BookItemContainer>
 }
@@ -73,6 +74,7 @@ const BookItemContainer = styled.div`
     align-items:center;
     justify-content:space-around;
     flex-wrap:nowrap;
+    margin-bottom:10px;
     img {
         z-index: 0;
         cursor:pointer;
