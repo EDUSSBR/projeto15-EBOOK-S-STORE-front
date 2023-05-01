@@ -2,25 +2,33 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HomePage } from "./pages/HomePage";
 import styled from "styled-components";
-import { Header } from "./components/Header";
 import { ProductProvider } from "./hooks/useProducts";
 import ProductPage from "./pages/ProductPage";
 import { CartProvider } from "./hooks/useCart";
+import SignUp from "./pages/Login/SignUp";
+import Login from "./pages/Login/Login";
+import { UserProvider } from "./ContextAPI/ContextUser";
+import Checkout from "./pages/Checkout";
 
 function App() {
-    return (<GlobalContainer>
-      <Header />
+    return (
+      <UserProvider>
+    <GlobalContainer>
       <BrowserRouter>
         <ProductProvider>
         <CartProvider>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="products/:id" element={<ProductPage />} />
+            <Route path="/products/:id" element={<ProductPage />} />
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/cadastro" element={<SignUp/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
           </Routes>
         </CartProvider>
         </ProductProvider>
       </BrowserRouter>
     </GlobalContainer>
+    </UserProvider>
 
     );
   }

@@ -1,12 +1,15 @@
-import styled from "styled-components";
-import { BookItem } from "../components/BookItem";
-import { services } from "../services";
-import { useProduct } from "../hooks/useProducts";
-import { useEffect } from "react";
-import { Circles } from "react-loader-spinner";
+import styled from "styled-components"
+import { BookItem } from "../components/BookItem"
+import { services } from "../services"
+import { useProduct } from "../hooks/useProducts"
+import { useEffect } from "react"
+import { Circles } from "react-loader-spinner"
+import { Header } from "../components/Header"
 import { useCart } from "../hooks/useCart";
 import { Cart } from "../components/Cart";
+
 export function HomePage() {
+
     const { products, setProducts } = useProduct();
    const { disableRemoveFromCartButton, addToCart, disableAddToCartButton} = useCart()
   
@@ -16,13 +19,17 @@ export function HomePage() {
                 const productsResponse = await services.getProducts();
                 setProducts(productsResponse);
             } catch (e) {
+                console.log("chegou aqui")
                 console.log("services is not working properly");
+
             }
         })
             ()
     }, [])
     
-    return (<HomePageContainer>
+    return (<>
+            <Header/>
+    <HomePageContainer>
         <Cart />
         <BookItemListContainer>
             {products.length > 0 ? products?.map(product => {
@@ -35,8 +42,7 @@ export function HomePage() {
                 visible={true}
             />}
         </BookItemListContainer>
-    </HomePageContainer >)
-
+    </HomePageContainer ></>)
 }
 
 

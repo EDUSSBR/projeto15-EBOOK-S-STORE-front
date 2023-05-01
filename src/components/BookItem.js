@@ -2,10 +2,19 @@ import styled from "styled-components";
 import { BsFillCartPlusFill } from "react-icons/bs";
 // import { FaRegEdit } from "react-icons/fa";
 import { bookCircle } from "../styles/keyframes";
+import { useNavigate } from "react-router-dom";
 
 export function BookItem({ addToCart,id, price, name, imageUrl, stockQuantity, disableAddToCartButton,disableRemoveFromCartButton }) {
+
+    const navigate = useNavigate();
+
+    function navigateToPageProduct(){
+        console.log(`${process.env.REACT_APP_BACK_API_URL}product/${id}`);
+        navigate(`/products/${id}`)
+    }
+
     return <BookItemContainer>
-        <img src={imageUrl} alt="capa" />
+        <img onClick={navigateToPageProduct} src={imageUrl} alt="capa" />
         <p>{name}</p>
         <p>R${price}</p>
         <Icons>
@@ -97,7 +106,6 @@ const BookItemContainer = styled.div`
         }
         &:nth-child(3){
             font-size: 25px;
-
             
         }
         &:nth-child(4){
