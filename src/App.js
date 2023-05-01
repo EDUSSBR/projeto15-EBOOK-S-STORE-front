@@ -8,6 +8,7 @@ import SignUp from "./pages/Login/SignUp";
 import Login from "./pages/Login/Login";
 import { UserProvider } from "./ContextAPI/ContextUser";
 import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
 
 function App() {
     return (
