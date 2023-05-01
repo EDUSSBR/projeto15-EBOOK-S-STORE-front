@@ -4,8 +4,11 @@ import { services } from "../services"
 import { useProduct } from "../hooks/useProducts"
 import { useEffect } from "react"
 import { Circles } from "react-loader-spinner"
+import { Header } from "../components/Header"
+
 
 export function HomePage() {
+
     const { products, setProducts } = useProduct();
     useEffect(() => {
         (async function getProducts() {
@@ -20,7 +23,10 @@ export function HomePage() {
         })
             ()
     }, [])
-    return (<HomePageContainer>
+    return (
+        <>
+        <Header/>
+    <HomePageContainer>
         {products.length> 0 ? products?.map(product => {
             return <BookItem key={product._id} id={product._id} price={product.price} name={product.name} imageUrl={product.imageUrl} />
         }): <Circles
@@ -30,7 +36,9 @@ export function HomePage() {
         wrapperClass="spinnerHome"
         visible={true}
       />}
-    </HomePageContainer >)
+    </HomePageContainer >
+    </>
+)
 
 }
 const HomePageContainer = styled.div`
