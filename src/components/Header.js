@@ -54,3 +54,19 @@ button:nth-child(3){
   font-size:15px;
 }
 `
+
+const Menu = styled.div`
+  width: 100%;
+  height: 50px;
+  background-color: #00afb9;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: inset 0px 1px 6px 1px #FDFBDD, 
+            outset 0px -1px 6px 1px #FDFBDD, 
+            0px 1px 14px 1px #FDFBDD;
+  p{
+    color: #FDFCDC;
+    font-size: 20px;
+  }
+`
