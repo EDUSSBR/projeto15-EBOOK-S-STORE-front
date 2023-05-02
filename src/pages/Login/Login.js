@@ -10,30 +10,30 @@ import { Header } from "../../components/Header"
 export default function Login(){
     const email = useRef(null);
     const password = useRef(null);
-    const [user, setUser] = useState({email:"", password:""})
-    const {config, setConfig} = useContext(UserContext)
+    const {setConfig, user, setUser} = useContext(UserContext)
     const [disable, setDisable] = useState(false)
     const navigate = useNavigate()
+    const token = localStorage.getItem("token")
     useEffect(()=>{
-        const token = localStorage.getItem("token")
-        if(token){
-            setConfig({headers:{
-                Authorization: "Bearer " + token
-            }})
-            axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {},config).then(res=>{
-
-                if(res.data){
-                    navigate("/")
-                }
-                return
+        console.log(token)
+        if(token && user){
+            navigate("/")
             }
-            ).catch(err=>{
+        else if(token){
+            axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
+                Authorization: "Bearer " + token
+            }}).then(res=>{
+                const {name, email} = res.data
+                setUser({...user, name, email})
+                navigate("/")
+            }).catch(err=>{
                 navigate("/login")
+                setUser({name: "", email: ""})
                 localStorage.removeItem("token")
-            }, [])
+            })
             
         }
-    })
+    }, [token, user.name, user.email])
     return(
         <>
         <Header/>
@@ -51,7 +51,6 @@ export default function Login(){
     function login(e){
         e.preventDefault()
         setDisable(true)
-        console.log(user)
         if(!user.email) {
             email.current.focus()
             setDisable(false)
@@ -73,7 +72,6 @@ export default function Login(){
         ).catch(err=>{
             setDisable(false)
             alert(err.response.data)
-            console.log(email.current)
             email.current.focus()
         })
     }

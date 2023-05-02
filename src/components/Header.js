@@ -9,7 +9,7 @@ export function Header() {
   const [admin, setAdmin] = useState(false)
   useEffect(()=>{
         if(lctoken){
-            axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {}, {headers:{
+            axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
                 Authorization: "Bearer " + lctoken
             }}).then(res=>{
                 if(!res.data){
