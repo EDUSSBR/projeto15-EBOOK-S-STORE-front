@@ -13,34 +13,30 @@ export default function Checkout(){
     const [blur, setBlur] = useState(false)
 
     const navigate = useNavigate()
-    const {setConfig} = useContext(UserContext)
+    const {user, setUser} = useContext(UserContext)
     const { cart, resetCart} = useCart() 
-    const [user, setUser] = useState()
     useEffect(()=>{
-    const lctoken = localStorage.getItem("token")
+    const token = localStorage.getItem("token")
         
         
-        if(!lctoken){
+        if(!token){
             navigate("/login")
         }
-        if(lctoken){
-            
-            axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {}, {headers:{
-                Authorization: "Bearer " + lctoken
+    
+        else if(token){
+            axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
+                Authorization: "Bearer " + token
             }}).then(res=>{
-                if(!res.data){
-                    navigate("/login")
-                }
-                setConfig({headers:{
-                    Authorization: "Bearer " + lctoken
-                }})
-                setUser(res.data)
+                const {name, email} = res.data
+                setUser({...user, name, email})
             }).catch(err=>{
                 navigate("/login")
+                setUser({name: "", email: ""})
                 localStorage.removeItem("token")
             })
 
-            }}, [])
+            
+        }}, [])
 
     return (
         <>
@@ -88,15 +84,16 @@ export default function Checkout(){
         </>
     )
     function sendRequest(){
-        setBlur(true)
-        const a = true
-        resetCart(a)
-        const lctoken = localStorage.getItem("token")
+        
+        
+        const token = localStorage.getItem("token")
         const order = {name:user.name, email:user.email, paymentForm:payment.paymentForm, cart:cart.items, total: Number(cart.total)}
         axios.post(`${process.env.REACT_APP_BACK_API_URL}/order`, order, {headers:{
-            Authorization: "Bearer " + lctoken
+            Authorization: "Bearer " + token
         }}).then(res=>{
-            alert(res.data)
+            setBlur(true)
+            const a = true
+            resetCart(a)
         }).catch(err=>{
             alert(err.response.data)
         })
