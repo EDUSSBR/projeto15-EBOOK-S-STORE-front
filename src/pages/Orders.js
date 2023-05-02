@@ -5,7 +5,7 @@ import { Header } from "../components/Header";
 
 export default function Orders(){
     const [orders, setOrders] = useState([])
-    const lctoken = localStorage.getItem("token")            
+    const lctoken = JSON.parse(localStorage.getItem("token"))        
 
     useEffect(()=>{
         axios.get(`${process.env.REACT_APP_BACK_API_URL}/order`,{headers:{

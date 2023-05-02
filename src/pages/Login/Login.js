@@ -14,13 +14,14 @@ export default function Login(){
     const [disable, setDisable] = useState(false)
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
+    console.log(token)
     useEffect(()=>{
         console.log(token)
         if(token && user){
             navigate("/")
             }
         else if(token){
-            axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
+            axios.post(`${process.env.REACT_APP_BACK_API_URL}/login`, {}, {headers:{
                 Authorization: "Bearer " + token
             }}).then(res=>{
                 const {name, email} = res.data
@@ -66,7 +67,7 @@ export default function Login(){
             setConfig({headers:{
                 Authorization: "Bearer " + res.data
             }})
-            localStorage.setItem("token", res.data)
+            localStorage.setItem("token",JSON.stringify(res.data.token))
             navigate("/")
         }
         ).catch(err=>{

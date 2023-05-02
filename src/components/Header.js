@@ -4,10 +4,13 @@ import { useEffect, useState } from "react"
 import axios from "axios";
 
 export function Header() {
-  const lctoken = localStorage.getItem("token")
+  let lctoken =JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate()
   const [admin, setAdmin] = useState(false)
+  console.log(lctoken)
   useEffect(()=>{
+    lctoken = JSON.parse(localStorage.getItem("token"))
+    console.log(lctoken)
         if(lctoken){
             axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
                 Authorization: "Bearer " + lctoken
@@ -23,7 +26,7 @@ export function Header() {
                 localStorage.removeItem("token")
             })
 
-            }}, [])
+            }}, [lctoken])
 
 
 
@@ -32,9 +35,13 @@ export function Header() {
     <p onClick={()=> navigate("/")}>Ebook'Store</p>
     {!lctoken?(
     <><button onClick={()=> navigate("/login")}>Login</button>
-    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(<button onClick={()=> navigate("/pedidos")}>Pedidos</button>)(admin?<Addproduct onClick={()=> navigate("/addproduct")}>Adicionar Produto</Addproduct>:<></>)}
-   
-    
+    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>)
+    :
+    <>
+    {admin&&<Addproduct onClick={()=> navigate("/addproduct")}>Adicionar Produto</Addproduct>}
+    <button onClick={() => navigate("/pedidos")}>Pedidos</button>
+    </>
+    }
   </HeaderContainer>
 }
 
