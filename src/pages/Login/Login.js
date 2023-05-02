@@ -51,7 +51,12 @@ export default function Login(){
     function login(e){
         e.preventDefault()
         setDisable(true)
-        if(!user.email) email.current.focus();
+        console.log(user)
+        if(!user.email) {
+            email.current.focus()
+            setDisable(false)
+            return
+        };
         if(!user.password) password.current.focus();
         if (!user.email||!user.password){
             setDisable(false)
