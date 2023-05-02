@@ -22,7 +22,8 @@ export default function SignUp(){
                 navigate("/login")
             }
             ).catch(err=>{
-                alert(err.response.data)
+                navigate("/login")
+                localStorage.removeItem("token")
             }, [])
             
         }

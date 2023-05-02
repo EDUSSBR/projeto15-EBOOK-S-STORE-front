@@ -26,7 +26,8 @@ export default function Login(){
                 return
             }
             ).catch(err=>{
-                alert(err.response.data)
+                navigate("/login")
+                localStorage.removeItem("token")
             }, [])
             
         }

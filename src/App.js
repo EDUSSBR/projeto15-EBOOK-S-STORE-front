@@ -10,6 +10,7 @@ import Login from "./pages/Login/Login";
 import { UserProvider } from "./ContextAPI/ContextUser";
 import Checkout from "./pages/Checkout";
 import AddProduct from "./pages/AddProduct";
+import Orders from "./pages/Orders";
 
 function App() {
     return (

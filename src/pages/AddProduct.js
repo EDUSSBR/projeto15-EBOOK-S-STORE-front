@@ -11,7 +11,6 @@ export default function AddProduct(){
     const [description, setDescription] = useState("");
     const [stockQuantity, setStockQuantity] = useState("");
     const [category, setCategory] = useState("");
-    const [book, setBook] = useState();
 
 const navigate = useNavigate()
     function bookEdit(e) {

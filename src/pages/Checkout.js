@@ -13,11 +13,12 @@ export default function Checkout(){
     const [blur, setBlur] = useState(false)
 
     const navigate = useNavigate()
-        const {setConfig} = useContext(UserContext)
-        const { cart, resetCart, disableRemoveFromCartButton, removeFromCart, addToCart, disableAddToCartButton, setIsOpenCart, isOpenCart } = useCart()
-        const [user, setUser] = useState()
-        useEffect(()=>{
-        const lctoken = localStorage.getItem("token")
+    const {setConfig} = useContext(UserContext)
+    const { cart, resetCart} = useCart() 
+    const [user, setUser] = useState()
+    useEffect(()=>{
+    const lctoken = localStorage.getItem("token")
+        
         
         if(!lctoken){
             navigate("/login")
@@ -35,7 +36,8 @@ export default function Checkout(){
                 }})
                 setUser(res.data)
             }).catch(err=>{
-                alert(err.response.data)
+                navigate("/login")
+                localStorage.removeItem("token")
             })
 
             }}, [])
