@@ -15,7 +15,7 @@ export default function AddProduct(){
     const [category, setCategory] = useState("");
     const {setConfig} = useContext(UserContext)
     useEffect(()=>{
-        const lctoken = localStorage.getItem("token")
+        const lctoken = JSON.parse(localStorage.getItem("token"))
             
             
             if(!lctoken){
