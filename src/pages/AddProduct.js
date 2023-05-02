@@ -32,7 +32,6 @@ export default function AddProduct(){
                     setConfig({headers:{
                         Authorization: "Bearer " + lctoken
                     }})
-                    console.log(res.data)
                     if(!res.data.isAdmin){
                         navigate("/")
                     }

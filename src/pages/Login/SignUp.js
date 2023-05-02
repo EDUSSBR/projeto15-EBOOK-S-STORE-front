@@ -12,7 +12,7 @@ export default function SignUp() {
     const email = useRef(null);
     const password = useRef(null);
     const confirm = useRef(null);
-    const [errorMessage, setErrorMessage] = useState({ name: "", email: "", password: "", confirm: "" })
+    const [errorMessage, setErrorMessage] = useState({ name: "Campo obrigatório", email: "Campo obrigatório", password: "Campo obrigatório", confirm: "Campo obrigatório" })
     const [userRegister, setUserRegister] = useState({ name: "", email: "", password: "", confirm: "" })
     const [fieldError, setFieldError] = useState(() => ({ name: false, email: false, password: false, confirm: false }))
     const [disable, setDisable] = useState(false)
@@ -62,7 +62,6 @@ export default function SignUp() {
     )
     function cadastro(e) {
         e.preventDefault()
-        console.log(userRegister.confirm)
         const fields = ["name", "email", "password", "confirm"]
         let newFieldError = { name: false, email: false, password: false, confirm: false };
         setDisable(true)
@@ -79,15 +78,14 @@ export default function SignUp() {
             if (foundError) {
                 if (item === 'name') { 
                     text.current.focus() 
-                    setErrorMessage({...errorMessage, name: "Nome não pode ser vazio"})
+                    
                 }
-                else if (item === 'email') { email.current.focus() 
-                    setErrorMessage({...errorMessage, email: "Email não pode ser vazio"})}
-                else if (item === 'password') { password.current.focus() 
-                    setErrorMessage({...errorMessage, password: "Senha não pode ser vazia"})}
-                else if (item === 'confirm') { 
+                if (item === 'email') { email.current.focus() 
+                    }
+                if (item === 'password') { password.current.focus() 
+                    }
+                if (item === 'confirm') { 
                     confirm.current.focus() 
-                    setErrorMessage({...errorMessage, confirm: "Confimar a senha não pode ser vazio"})
                 }
                     break;
             }
@@ -102,7 +100,7 @@ export default function SignUp() {
             confirm.current.focus();
             setUserRegister(prev=> ({...prev, confirm:""}))
             newFieldError = { ...newFieldError, confirm: true };
-            setErrorMessage({...errorMessage, password: "Senhas não podem ser diferentes!"})
+            setErrorMessage({...errorMessage, confirm: "Senhas não podem ser diferentes!"})
             setFieldError(newFieldError)
             return 
         }
@@ -116,17 +114,22 @@ export default function SignUp() {
             .catch(err => {
                 if(err.response.data[0].includes("email")){
                     setErrorMessage({...errorMessage, email: "O email deve ser válido"})
+                    newFieldError = { ...newFieldError, email: true };
+                    setFieldError(newFieldError)
+                }
+                if(err.response.data.includes("Email")){
+                    setErrorMessage({...errorMessage, email: err.response.data})
+                    newFieldError = { ...newFieldError, email: true };
+                    setFieldError(newFieldError)
                 }
                 if(err.response.data[0].includes("least")){
                     setErrorMessage({...errorMessage, password: "A senha deve ter mais de 3 caracteres!"})
+                    newFieldError = { ...newFieldError, password: true };
+                    setFieldError(newFieldError)
                 }
-                console.log(err.response.data[0])
-                if(err.response.data.includes("Email")){
-                    setErrorMessage({...errorMessage, email: err.response.data})
-                }
+                
                 setDisable(false)
                 
-                setFieldError({ name: false, email: false, password: false, confirm: false })
             })
     }
 }
