@@ -1,8 +1,10 @@
 import axios from "axios";
 import { EditionBook } from "./ProductPage";
 import { useState } from "react"
+import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Header } from "../components/Header";
+import { UserContext } from "../ContextAPI/ContextUser";
 
 export default function AddProduct(){
     const [name, setName] = useState("");
@@ -11,6 +13,35 @@ export default function AddProduct(){
     const [description, setDescription] = useState("");
     const [stockQuantity, setStockQuantity] = useState("");
     const [category, setCategory] = useState("");
+    const {setConfig} = useContext(UserContext)
+    useEffect(()=>{
+        const lctoken = localStorage.getItem("token")
+            
+            
+            if(!lctoken){
+                navigate("/login")
+            }
+            if(lctoken){
+                
+                axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
+                    Authorization: "Bearer " + lctoken
+                }}).then(res=>{
+                    if(!res.data){
+                        navigate("/login")
+                    }
+                    setConfig({headers:{
+                        Authorization: "Bearer " + lctoken
+                    }})
+                    console.log(res.data)
+                    if(!res.data.isAdmin){
+                        navigate("/")
+                    }
+                }).catch(err=>{
+                    navigate("/login")
+                    localStorage.removeItem("token")
+                })
+    
+                }}, [])
 
 const navigate = useNavigate()
     function bookEdit(e) {
