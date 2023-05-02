@@ -8,7 +8,7 @@ export function Header() {
     <p onClick={()=> navigate("/")}>Ebook'Store</p>
     {!lctoken?(
     <><button onClick={()=> navigate("/login")}>Login</button>
-    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(<></>)}
+    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(<button onClick={()=> navigate("/pedidos")}>Pedidos</button>)}
     
   </HeaderContainer>
 }
