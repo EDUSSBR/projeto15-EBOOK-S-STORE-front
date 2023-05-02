@@ -3,49 +3,50 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Header } from "../components/Header";
 
-export default function Orders(){
+export default function Orders() {
     const [orders, setOrders] = useState([])
-    const lctoken = JSON.parse(localStorage.getItem("token"))        
+    const lctoken = JSON.parse(localStorage.getItem("token"))
 
-    useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_BACK_API_URL}/order`,{headers:{
-            Authorization: "Bearer " + lctoken
-        }})
-            .then((ans)=>{
-                console.log("chega aqui") 
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_BACK_API_URL}/order`, {
+            headers: {
+                Authorization: "Bearer " + lctoken
+            }
+        })
+            .then((ans) => {
                 setOrders(ans.data)
-            })     
-            .catch(e => alert(e))
-    },[])
-
-    return(
+            })
+            .catch(e => console.log(e))
+    }, [])
+    return (
         <>
-        <Header/>
-        <OrderContainer>
-            <h1>Pedidos</h1>
-
-            {orders ? (
-                orders.map((ord)=>(
-                    <Order>
-                    <InfOrders>
-                        <p>Nº do pedido: {ord._id}</p>
-                        <p>Forma de pagamento: {ord.paymentForm}</p>
-                    </InfOrders>
-                    {(ord.cart).map((itens) =>(
-                        <Items>
-                        <img src={itens.imageUrl}/>
-                        <p>quantidade: {itens.quantity}</p>
-                        <p>valor total: R$ {Number(itens.price) * itens.quantity}</p>
-                    </Items>
-                    ))}
-                    <p>Total do pedido: R$ {ord.total}</p>
-                </Order>
-                ))
-            ) : (
-                <p>carregando...</p>
-            )
-        }
-        </OrderContainer>
+            <Header />
+            <OrderContainer>
+                <h1>Pedidos</h1>
+                {!lctoken && <p>Faça login para ver seus pedidos</p>}
+                {orders ? (
+                    orders.map((ord) => (
+                        <Order>
+                            <InfOrders>
+                                <p>Nº do pedido: #{ord._id}</p>
+                                <p>Forma de pagamento: {ord.paymentForm}</p>
+                            </InfOrders>
+                            {(ord.cart).map((itens) => (
+                                <Items>
+                                    <img src={itens.imageUrl} />
+                                    <p>quantidade: {itens.quantity}</p>
+                                    <p>valor: R$ {Number(itens.price) * itens.quantity}</p>
+                                </Items>
+                            ))}
+                            <Borda/>
+                            <p>Total do pedido: R$ {ord.total}</p>
+                        </Order>
+                    ))
+                ) : (
+                    <p>carregando...</p>
+                )
+                }
+            </OrderContainer>
         </>
     )
 }
@@ -60,6 +61,10 @@ const OrderContainer = styled.div`
         font-size:40px;
         font-weight:700;
         margin-bottom:30px ;
+    }
+    p{
+        font-size: 20px;
+        margin: 5px;
     }
 `
 
@@ -78,6 +83,7 @@ const InfOrders = styled.div`
     justify-content: space-between;
     background-color: #fff ;
     margin-bottom:10px;
+    border-bottom: 1px solid #000;
 `
 
 const Items = styled.div`
@@ -89,4 +95,7 @@ const Items = styled.div`
     img{
         width: 100px;
     }
+`
+const Borda = styled.div`
+    border-bottom: 1px solid #000
 `
