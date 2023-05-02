@@ -4,10 +4,12 @@ import { useEffect, useState } from "react"
 import axios from "axios";
 
 export function Header() {
-  const lctoken = localStorage.getItem("token")
+  let lctoken =JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate()
   const [admin, setAdmin] = useState(false)
+  console.log(lctoken)
   useEffect(()=>{
+    lctoken = JSON.parse(localStorage.getItem("token"))
         if(lctoken){
             axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
                 Authorization: "Bearer " + lctoken
@@ -23,7 +25,7 @@ export function Header() {
                 localStorage.removeItem("token")
             })
 
-            }}, [])
+            }}, [lctoken])
 
 
 
@@ -32,8 +34,13 @@ export function Header() {
     <p onClick={()=> navigate("/")}>Ebook'Store</p>
     {!lctoken?(
     <><button onClick={()=> navigate("/login")}>Login</button>
-    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(admin?<Addproduct onClick={()=> navigate("/addproduct")}>Adicionar Produto</Addproduct>:<></>)}
-    
+    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>)
+    :
+    <>
+    {admin&&<Addproduct onClick={()=> navigate("/addproduct")}>Adicionar Produto</Addproduct>}
+    <button onClick={() => navigate("/pedidos")}>Pedidos</button>
+    </>
+    }
   </HeaderContainer>
 }
 
@@ -90,20 +97,8 @@ button:nth-child(3){
   right: 150px;
   font-size:15px;
 }
+@media (max-width: 768px){
+        justify-content: space-between;
+    }
 `
 
-const Menu = styled.div`
-  width: 100%;
-  height: 50px;
-  background-color: #00afb9;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  box-shadow: inset 0px 1px 6px 1px #FDFBDD, 
-            outset 0px -1px 6px 1px #FDFBDD, 
-            0px 1px 14px 1px #FDFBDD;
-  p{
-    color: #FDFCDC;
-    font-size: 20px;
-  }
-`
