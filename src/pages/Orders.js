@@ -1,28 +1,46 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Header } from "../components/Header";
 
 export default function Orders(){
+    const [orders, setOrders] = useState([])
+   
+    useEffect(()=>{
+        axios.get(`${process.env.REACT_APP_BACK_API_URL}/order`) 
+            .then((ans)=>{
+                console.log("chega aqui") 
+                setOrders(ans.data)
+            })     
+            .catch(e => alert(e))
+    },[])
     return(
         <>
         <Header/>
         <OrderContainer>
             <h1>Pedidos</h1>
 
-            <Order>
-                <InfOrders>
-                    <p>Nº do pedido</p>
-                    <p>Data</p>
-                </InfOrders>
-                <InfOrders>
-                    <p>Forma de pagamento</p>
-                </InfOrders>
-                <Items>
-                    <img src="https://m.media-amazon.com/images/I/6132ndvQdiL.jpg"/>
-                    <p>quantidade: 10</p>
-                    <p>valor total: R$ 360,00</p>
-                </Items>
-                <p>Total: R$ 360,00</p>
-            </Order>
+            {orders ? (
+                orders.map((ord)=>(
+                    <Order>
+                    <InfOrders>
+                        <p>Nº do pedido: {ord._id}</p>
+                        <p>Forma de pagamento: {ord.paymentForm}</p>
+                    </InfOrders>
+                    {(ord.cart).map((itens) =>(
+                        <Items>
+                        <img src={itens.imageUrl}/>
+                        <p>quantidade: {itens.quantity}</p>
+                        <p>valor total: R$ {Number(itens.price) * itens.quantity}</p>
+                    </Items>
+                    ))}
+                    <p>Total do pedido: R$ {ord.total}</p>
+                </Order>
+                ))
+            ) : (
+                <p>carregando...</p>
+            )
+        }
         </OrderContainer>
         </>
     )
@@ -30,7 +48,6 @@ export default function Orders(){
 
 const OrderContainer = styled.div`
     width: 100%;
-    height: calc(100vh - 70px);
     display: flex;
     flex-direction: column;
     align-items:center;
@@ -38,19 +55,21 @@ const OrderContainer = styled.div`
     h1{
         font-size:40px;
         font-weight:700;
+        margin-bottom:30px ;
     }
 `
 
 const Order = styled.div`
-    width: 50%;
-    height: 300px;
+    width: 70%;
+    /* height: 300px; */
     background-color: #fff ;
-    margin-top:30px;
+    /* margin-top:30px; */
     border-radius: 20px;
     display: flex;
     flex-direction:column ;
     padding: 30px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom:30px;
 `
 const InfOrders = styled.div`
     display: flex;
