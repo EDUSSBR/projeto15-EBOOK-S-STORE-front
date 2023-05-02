@@ -94,7 +94,7 @@ button{
 }
 button:nth-child(3){
   position: absolute;
-  right: 150px;
+  right: 200px;
   font-size:15px;
 }
 @media (max-width: 768px){

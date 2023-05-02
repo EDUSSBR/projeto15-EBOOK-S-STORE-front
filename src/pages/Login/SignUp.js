@@ -19,7 +19,7 @@ export default function SignUp() {
     const {user, setUser} = useContext(UserContext)
     const navigate = useNavigate()
     useEffect(()=>{
-        const token = localStorage.getItem("token")
+        const token = JSON.parse(localStorage.getItem("token"))
         if(token && user){
             navigate("/")
             }
@@ -109,7 +109,6 @@ export default function SignUp() {
         axios.post(`${process.env.REACT_APP_BACK_API_URL}/signup`, register)
             .then(res => {
                 navigate("/login")
-                localStorage.setItem("token",JSON.stringify(res.data.token))
             })
             .catch(err => {
                 if(err.response.data[0].includes("email")){
