@@ -5,15 +5,19 @@ import { Header } from "../components/Header";
 
 export default function Orders(){
     const [orders, setOrders] = useState([])
-   
+    const lctoken = localStorage.getItem("token")            
+
     useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_BACK_API_URL}/order`) 
+        axios.get(`${process.env.REACT_APP_BACK_API_URL}/order`,{headers:{
+            Authorization: "Bearer " + lctoken
+        }})
             .then((ans)=>{
                 console.log("chega aqui") 
                 setOrders(ans.data)
             })     
             .catch(e => alert(e))
     },[])
+    
     return(
         <>
         <Header/>
