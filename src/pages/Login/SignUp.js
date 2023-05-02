@@ -62,7 +62,6 @@ export default function SignUp() {
     )
     function cadastro(e) {
         e.preventDefault()
-        console.log(userRegister.confirm)
         const fields = ["name", "email", "password", "confirm"]
         let newFieldError = { name: false, email: false, password: false, confirm: false };
         setDisable(true)
@@ -81,11 +80,11 @@ export default function SignUp() {
                     text.current.focus() 
                     setErrorMessage({...errorMessage, name: "Nome não pode ser vazio"})
                 }
-                else if (item === 'email') { email.current.focus() 
+                if (item === 'email') { email.current.focus() 
                     setErrorMessage({...errorMessage, email: "Email não pode ser vazio"})}
-                else if (item === 'password') { password.current.focus() 
+                if (item === 'password') { password.current.focus() 
                     setErrorMessage({...errorMessage, password: "Senha não pode ser vazia"})}
-                else if (item === 'confirm') { 
+                if (item === 'confirm') { 
                     confirm.current.focus() 
                     setErrorMessage({...errorMessage, confirm: "Confimar a senha não pode ser vazio"})
                 }
@@ -119,13 +118,11 @@ export default function SignUp() {
                 if(err.response.data[0].includes("least")){
                     setErrorMessage({...errorMessage, password: "A senha deve ter mais de 3 caracteres!"})
                 }
-                console.log(err.response.data[0])
                 if(err.response.data.includes("Email")){
                     setErrorMessage({...errorMessage, email: err.response.data})
                 }
                 setDisable(false)
                 
-                setFieldError({ name: false, email: false, password: false, confirm: false })
             })
     }
 }
