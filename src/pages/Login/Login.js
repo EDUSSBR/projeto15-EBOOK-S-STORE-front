@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Background } from "./style"
 import { UserContext } from "../../ContextAPI/ContextUser"
@@ -8,6 +8,8 @@ import styled from "styled-components"
 import { Header } from "../../components/Header"
 
 export default function Login(){
+    const email = useRef(null);
+    const password = useRef(null);
     const [user, setUser] = useState({email:"", password:""})
     const {config, setConfig} = useContext(UserContext)
     const [disable, setDisable] = useState(false)
@@ -38,8 +40,8 @@ export default function Login(){
         <Background>
             <Form onSubmit={login}>
                 <h1>Login:</h1>
-                <input disabled={disable} type="email" value={user.email} onChange={(e) => setUser({...user, email:e.target.value})} placeholder="Email"/>
-                <input disabled={disable} type="password" value={user.password} onChange={(e) => setUser({...user, password:e.target.value})} placeholder="Senha"/>
+                <input disabled={disable} ref={email} type="email" value={user.email} onChange={(e) => setUser({...user, email:e.target.value})} placeholder="Email"/>
+                <input disabled={disable} ref={password} type="password" value={user.password} onChange={(e) => setUser({...user, password:e.target.value})} placeholder="Senha"/>
                 <button disabled={disable} type="submit">{disable?<ThreeDots color="white"/>:"Logar"}</button>
                 <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
             </Form>
@@ -49,6 +51,13 @@ export default function Login(){
     function login(e){
         e.preventDefault()
         setDisable(true)
+        console.log(user)
+        if(!user.email) {
+            email.current.focus()
+            setDisable(false)
+            return
+        };
+        if(!user.password) password.current.focus();
         if (!user.email||!user.password){
             setDisable(false)
             return alert("Preencha todos os campos!")
@@ -62,8 +71,10 @@ export default function Login(){
             navigate("/")
         }
         ).catch(err=>{
-            alert(err.response.data)
             setDisable(false)
+            alert(err.response.data)
+            console.log(email.current)
+            email.current.focus()
         })
     }
 }
@@ -72,4 +83,8 @@ export default function Login(){
 const Form = styled.form`
     width:300px;
     height:300px;
+
+input{
+    border:1px solid red;
+}
 `
