@@ -17,7 +17,7 @@ export default function Orders(){
             })     
             .catch(e => alert(e))
     },[])
-    
+
     return(
         <>
         <Header/>
@@ -65,9 +65,7 @@ const OrderContainer = styled.div`
 
 const Order = styled.div`
     width: 70%;
-    /* height: 300px; */
     background-color: #fff ;
-    /* margin-top:30px; */
     border-radius: 20px;
     display: flex;
     flex-direction:column ;

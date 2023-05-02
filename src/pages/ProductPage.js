@@ -23,7 +23,8 @@ export default function ProductPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart()
-    const { cart } =useCart();
+    const lctoken = localStorage.getItem("token")  
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACK_API_URL}/product/${id}`)
             .then((response) => {
@@ -35,6 +36,8 @@ export default function ProductPage() {
             .finally(() => setIsLoading(false));
 
     }, [id, name, imageUrl, price, description])
+
+
 
     function initializeData(product) {
         setName(product.name);
@@ -104,7 +107,7 @@ export default function ProductPage() {
                 <PageProdutc>
                     <BookTittle>
                         <p>{book?.name}</p>
-                        <StyledIcon onClick={openEdition} />
+                       {lctoken?<StyledIcon onClick={openEdition}/> : <></>}
                     </BookTittle>
                     <ContainerProdutsInformation>
                         <img src={book?.imageUrl} />
