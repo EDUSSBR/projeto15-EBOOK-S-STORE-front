@@ -1,5 +1,5 @@
 import axios from "axios"
-import {useContext, useEffect, useState } from "react"
+import {useContext, useEffect, useState, useRef } from "react"
 import { ThreeDots } from "react-loader-spinner"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
@@ -8,6 +8,10 @@ import { UserContext } from "../../ContextAPI/ContextUser"
 import { Header } from "../../components/Header"
 
 export default function SignUp(){
+    const text = useRef(null);
+    const email = useRef(null);
+    const password = useRef(null);
+    const confirm = useRef(null);
     const [user, setUser] = useState({name:"", email:"", password:"", confirm:""})
     const [disable, setDisable] = useState(false)
     const navigate = useNavigate()
@@ -34,10 +38,10 @@ export default function SignUp(){
         <Background>
             <Form onSubmit={cadastro}>
                 <h1>Cadastre-se:</h1>
-                <input disabled={disable} type="text" value={user.name} onChange={(e) => setUser({...user, name:e.target.value})} placeholder="Nome"/>
-                <input disabled={disable} type="email" value={user.email} onChange={(e) => setUser({...user, email:e.target.value})} placeholder="Email"/>
-                <input disabled={disable} type="password" value={user.password} onChange={(e) => setUser({...user, password:e.target.value})} placeholder="Senha"/>
-                <input disabled={disable} type="password" value={user.confirm} onChange={(e) => setUser({...user, confirm:e.target.value})} placeholder="Confirme sua senha"/>
+                <input disabled={disable} ref={text} type="text" value={user.name} onChange={(e) => setUser({...user, name:e.target.value})} placeholder="Nome"/>
+                <input disabled={disable} ref={email} type="email" value={user.email} onChange={(e) => setUser({...user, email:e.target.value})} placeholder="Email"/>
+                <input disabled={disable} ref={password} type="password" value={user.password} onChange={(e) => setUser({...user, password:e.target.value})} placeholder="Senha"/>
+                <input disabled={disable} ref={confirm} type="password" value={user.confirm} onChange={(e) => setUser({...user, confirm:e.target.value})} placeholder="Confirme sua senha"/>
                 <button disabled={disable} type="submit">{disable?<ThreeDots color="white"/>:"Cadastrar"}</button>
                 <Link to="/login">Já tem uma conta? Entre!</Link>
             </Form>
@@ -47,6 +51,19 @@ export default function SignUp(){
     function cadastro(e){
         e.preventDefault()
         setDisable(true)
+        
+        if(!user.name){
+            text.current.focus();
+        }
+        if(!user.email){
+            email.current.focus();
+        }
+        if(!user.password){
+            password.current.focus();
+        }
+        if(!user.confirm){
+            confirm.current.focus();
+        }
         if(!user.name||!user.email||!user.password||!user.confirm){
             setDisable(false)
             return alert("Preencha todos os campos!")
@@ -54,6 +71,7 @@ export default function SignUp(){
         }
         if(user.password!==user.confirm){
             setDisable(false)
+            confirm.current.focus();
             return alert("Senhas diferentes!")
         }
         const register = user
