@@ -1,17 +1,53 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useEffect, useState } from "react"
+import axios from "axios";
 
 export function Header() {
   const lctoken = localStorage.getItem("token")
   const navigate = useNavigate()
+  const [admin, setAdmin] = useState(false)
+  useEffect(()=>{
+        if(lctoken){
+            axios.post(`${process.env.REACT_APP_BACK_API_URL}/token`, {}, {headers:{
+                Authorization: "Bearer " + lctoken
+            }}).then(res=>{
+                if(!res.data){
+                    navigate("/login")
+                }
+                if(res.data.isAdmin){
+                    setAdmin(true)
+                }
+            }).catch(err=>{
+                navigate("/login")
+                localStorage.removeItem("token")
+            })
+
+            }}, [])
+
+
+
+
   return <HeaderContainer>
     <p onClick={()=> navigate("/")}>Ebook'Store</p>
     {!lctoken?(
     <><button onClick={()=> navigate("/login")}>Login</button>
-    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(<></>)}
+    <button onClick={()=> navigate("/cadastro")}>Cadastro</button></>):(admin?<Addproduct onClick={()=> navigate("/addproduct")}>Adicionar Produto</Addproduct>:<></>)}
     
   </HeaderContainer>
 }
+
+
+const Addproduct = styled.button`
+  font-size:15px;
+  border:0px;
+  border-radius:5px;
+  background-color:#fdfcdc;
+  width:160px !important;
+  height:35px;
+  position: absolute;
+  right: 20px;
+`
 
 const HeaderContainer = styled.header`
 position:sticky;

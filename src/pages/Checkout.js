@@ -91,8 +91,11 @@ export default function Checkout(){
         setBlur(true)
         const a = true
         resetCart(a)
+        const lctoken = localStorage.getItem("token")
         const order = {name:user.name, email:user.email, paymentForm:payment.paymentForm, cart:cart.items, total: Number(cart.total)}
-        axios.post(`${process.env.REACT_APP_BACK_API_URL}/order`, order).then(res=>{
+        axios.post(`${process.env.REACT_APP_BACK_API_URL}/order`, order, {headers:{
+            Authorization: "Bearer " + lctoken
+        }}).then(res=>{
             alert(res.data)
         }).catch(err=>{
             alert(err.response.data)
