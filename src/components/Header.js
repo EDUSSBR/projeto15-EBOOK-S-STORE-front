@@ -10,7 +10,6 @@ export function Header() {
   console.log(lctoken)
   useEffect(()=>{
     lctoken = JSON.parse(localStorage.getItem("token"))
-    console.log(lctoken)
         if(lctoken){
             axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
                 Authorization: "Bearer " + lctoken

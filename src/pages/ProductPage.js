@@ -23,7 +23,9 @@ export default function ProductPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart()
-    const lctoken = localStorage.getItem("token")  
+    const lctoken =JSON.parse(localStorage.getItem("token"));
+    const [admin, setAdmin] = useState(false)
+
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACK_API_URL}/product/${id}`)
@@ -34,6 +36,18 @@ export default function ProductPage() {
             })
             .catch((e) => alert(e))
             .finally(() => setIsLoading(false));
+
+        if(lctoken){
+            axios.post(`${process.env.REACT_APP_BACK_API_URL}/getuser`, {}, {headers:{
+                Authorization: "Bearer " + lctoken
+            }}).then(res=>{
+                if(res.data.isAdmin){
+                    setAdmin(true)
+                }
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
 
     }, [id, name, imageUrl, price, description])
 
@@ -107,7 +121,7 @@ export default function ProductPage() {
                 <PageProdutc>
                     <BookTittle>
                         <p>{book?.name}</p>
-                       {lctoken?<StyledIcon onClick={openEdition}/> : <></>}
+                       {admin?<StyledIcon onClick={openEdition}/> : <></>}
                     </BookTittle>
                     <ContainerProdutsInformation>
                         <img src={book?.imageUrl} />
